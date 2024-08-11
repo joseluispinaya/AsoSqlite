@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AsoSqlite.Mobile.Views.LoadingView"
+             Shell.NavBarIsVisible="False"
+             Title="LoadingView">
+    <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+        <ActivityIndicator IsRunning="True" HeightRequest="80" WidthRequest="80" HorizontalOptions="Center" VerticalOptions="Center" />
+    </StackLayout>
+</ContentPage>

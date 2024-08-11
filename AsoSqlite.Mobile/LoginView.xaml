@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AsoSqlite.Mobile.LoginView"
+             Shell.NavBarIsVisible="False"
+             xmlns:viewmodel="clr-namespace:AsoSqlite.Mobile.ViewModels"
+             x:DataType="viewmodel:LoginViewModel"
+             Title="LoginView">
+    <Grid>
+        <VerticalStackLayout>
+            <Frame CornerRadius="50" WidthRequest="120" HeightRequest="120"  Margin="0,20,0,0" Padding="0" BorderColor="Green">
+                <Image Source="logo.png" WidthRequest="80" HeightRequest="80" VerticalOptions="Center" HorizontalOptions="Center"></Image>
+            </Frame>
+
+            <Label Text="Inicio de Sesion" TextColor="Blue" FontAttributes="Bold" FontSize="18" HorizontalOptions="Center" Margin="0,60,0,0"></Label>
+
+            <Grid RowDefinitions="*, *, *" Margin="0,60,0,0" Padding="10" RowSpacing="10" HorizontalOptions="Center">
+                <StackLayout Orientation="Horizontal">
+                    <Image Source="user.png" WidthRequest="30" HeightRequest="30"></Image>
+                    <Entry Text="{Binding Email}" HeightRequest="50" WidthRequest="300" Margin="10,0,0,0" Placeholder="Ingrese correo" FontAttributes="Bold"></Entry>
+                </StackLayout>
+
+                <StackLayout Orientation="Horizontal" Grid.Row="1">
+                    <Image Source="lock.png" WidthRequest="30" HeightRequest="30"></Image>
+                    <Entry Text="{Binding Password}" HeightRequest="50" WidthRequest="300" Margin="10,0,0,0" Placeholder="Contraseña" FontAttributes="Bold" IsPassword="True"></Entry>
+                </StackLayout>
+
+                <StackLayout Grid.Row="2" Margin="35,0,0,0" Orientation="Horizontal">
+                    <CheckBox IsChecked="False"></CheckBox>
+                    <Label Text="Recordar" FontAttributes="Bold" Margin="-10,13,0,0"></Label>
+                    <Button Text="Recuperar Clave" BackgroundColor="Transparent" TextColor="IndianRed" FontAttributes="Bold" BorderWidth="0" Margin="50,0,0,0"></Button>
+                </StackLayout>
+
+            </Grid>
+            <Button Command="{Binding LoginCommand}" FontAttributes="Bold" Text="Iniciar" CornerRadius="10" FontSize="20" VerticalOptions="Center" Margin="30,0,30,0"></Button>
+
+        </VerticalStackLayout>
+
+        <Grid Opacity="0.8"
+            BackgroundColor="#100F1F"
+            IsVisible="{Binding LoadingEsVisible}">
+            <ActivityIndicator
+                IsRunning="{Binding LoadingEsVisible}"
+                HorizontalOptions="Center"
+                HeightRequest="60"
+                WidthRequest="60"/>
+        </Grid>
+    </Grid>
+</ContentPage>

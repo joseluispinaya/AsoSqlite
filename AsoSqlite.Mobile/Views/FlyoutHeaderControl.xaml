@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<StackLayout Padding="10" xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AsoSqlite.Mobile.Views.FlyoutHeaderControl"
+             xmlns:Models="clr-namespace:AsoSqlite.Mobile.ViewModels">
+
+    <StackLayout Spacing="5">
+        <Image Source="logoemi.png" HeightRequest="150"/>
+
+        <Grid Margin="0, -50, 0, 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="0" 
+            HeightRequest="80" 
+            WidthRequest="80"
+            Stroke="{AppThemeBinding Light=Blue, Dark=Black}"
+            StrokeThickness="2">
+                <Border.StrokeShape>
+                    <Ellipse/>
+                </Border.StrokeShape>
+                <Image
+                Source="{Binding Foto}" />
+            </Border>
+            <StackLayout Grid.Column="1" Margin="5,30,0,0"
+             VerticalOptions="Center">
+                <Label Text="{Binding Email}" 
+           FontAttributes="Bold"
+           FontSize="14"
+           LineBreakMode="TailTruncation" />
+                <Label Text="{Binding Nombre}"
+           LineBreakMode="TailTruncation"
+           FontAttributes="Italic" 
+           VerticalOptions="End" />
+            </StackLayout>
+        </Grid>
+    </StackLayout>
+</StackLayout>
