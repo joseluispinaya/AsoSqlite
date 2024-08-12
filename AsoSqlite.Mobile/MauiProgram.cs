@@ -1,4 +1,5 @@
 ﻿using AsoSqlite.Mobile.Repositories;
+using AsoSqlite.Mobile.DataAccess;
 using AsoSqlite.Mobile.ViewModels;
 using AsoSqlite.Mobile.Views;
 using Microsoft.Extensions.Logging;
@@ -18,6 +19,11 @@ namespace AsoSqlite.Mobile
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
+            var dbContext = new EAfiliadoDbContext();
+            dbContext.Database.EnsureCreated();
+            dbContext.Dispose();
+
+            builder.Services.AddDbContext<EAfiliadoDbContext>();
 
             builder.Services.AddSingleton<IRepository, Repository>();
 
@@ -25,12 +31,18 @@ namespace AsoSqlite.Mobile
             builder.Services.AddTransient<LoginView>();
             builder.Services.AddTransient<LoadingView>();
             builder.Services.AddTransient<AsociacionesView>();
+            builder.Services.AddTransient<AfiliadoView>();
+            builder.Services.AddTransient<AddAfiliadoView>();
+            builder.Services.AddTransient<SincronisarView>();
             builder.Services.AddTransient<FlyoutHeaderControl>();
 
 
             //View Models
             builder.Services.AddTransient<LoginViewModel>();
             builder.Services.AddTransient<LoadingViewModel>();
+            builder.Services.AddTransient<AfiliadoViewModel>();
+            builder.Services.AddTransient<AddAfiliadoViewModel>();
+            builder.Services.AddTransient<SincronisarViewModel>();
             builder.Services.AddTransient<FlyoutHeaderControlModel>();
 
 

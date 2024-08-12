@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AsoSqlite.Mobile.Views.AddAfiliadoView"
+             Title="{Binding TituloPagina}">
+    <Grid>
+        <VerticalStackLayout Padding="15">
+            <Label Text="Numero CI"/>
+            <Entry Text="{Binding EAfiliadoDto.NroCI}" Margin="0,0,0,10"/>
+
+            <Label Text="Nombres"/>
+            <Entry Text="{Binding EAfiliadoDto.Nombres}" Margin="0,0,0,10"/>
+
+            <Label Text="Apellidos"/>
+            <Entry Text="{Binding EAfiliadoDto.Apellidos}" Margin="0,0,0,10"/>
+
+            <Label Text="Direccion"/>
+            <Entry Text="{Binding EAfiliadoDto.Direccion}" Margin="0,0,0,10"/>
+
+            <Label Text="Celular"/>
+            <Entry Text="{Binding EAfiliadoDto.Celular}" Keyboard="Numeric" Margin="0,0,0,10"/>
+
+            <Label Text="Asociacion"/>
+            <Picker Title="Selec Asociacion"
+                    Margin="0,0,0,10"
+                    FontAttributes="Bold"
+                    ItemDisplayBinding="{Binding Nombre}"
+                    ItemsSource="{Binding ListaAsociacion}"
+                    SelectedItem="{Binding EAsociacionDto}"/>
+
+            <HorizontalStackLayout Spacing="18" Margin="0,0,0,20">
+                <Label Text="Estado Activo?" FontAttributes="Bold" VerticalOptions="Center"/>
+                <Switch IsToggled="{Binding EAfiliadoDto.Estado}"/>
+            </HorizontalStackLayout>
+
+            <Button Text="Guardar" Command="{Binding GuardarCommand}" BackgroundColor="Green"/>
+
+        </VerticalStackLayout>
+        <Grid Opacity="0.8"
+            BackgroundColor="#100F1F"
+            IsVisible="{Binding LoadingEsVisible}">
+            <ActivityIndicator
+                IsRunning="{Binding LoadingEsVisible}"
+                HorizontalOptions="Center"
+                HeightRequest="60"
+                WidthRequest="60"/>
+        </Grid>
+
+    </Grid>
+</ContentPage>

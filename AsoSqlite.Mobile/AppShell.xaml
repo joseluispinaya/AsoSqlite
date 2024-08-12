@@ -22,9 +22,17 @@
         ContentTemplate="{DataTemplate views:InicioView}"/>
 
         <ShellContent
+        Title="Sincronizar" Icon="ajusteh.png"
+        ContentTemplate="{DataTemplate views:SincronisarView}"/>
+
+        <ShellContent
+        Title="Registro Afi" Icon="afiliah.png"
+        ContentTemplate="{DataTemplate views:AfiliadoView}"/>
+
+        <ShellContent
         Title="Asociaciones" Icon="listah.png"
         ContentTemplate="{DataTemplate views:AsociacionesView}"/>
-        
+
     </FlyoutItem>
 
     <Shell.FlyoutFooter>

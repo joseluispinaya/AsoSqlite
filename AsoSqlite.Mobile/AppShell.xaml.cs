@@ -10,6 +10,7 @@ namespace AsoSqlite.Mobile
             InitializeComponent();
             BindingContext = new AppShellViewModel();
             Routing.RegisterRoute(nameof(InicioView), typeof(InicioView));
+            Routing.RegisterRoute(nameof(AddAfiliadoView), typeof(AddAfiliadoView));
         }
     }
 }
