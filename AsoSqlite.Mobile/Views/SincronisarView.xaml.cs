@@ -4,9 +4,17 @@ namespace AsoSqlite.Mobile.Views;
 
 public partial class SincronisarView : ContentPage
 {
-	public SincronisarView(SincronisarViewModel mv)
+    private readonly SincronisarViewModel _viewModel;
+    public SincronisarView(SincronisarViewModel mv)
 	{
 		InitializeComponent();
         BindingContext = mv;
+        _viewModel = mv;
+    }
+
+    protected async override void OnAppearing()
+    {
+        //base.OnAppearing();
+        await _viewModel.ObtenerAfiliadosAsync();
     }
 }

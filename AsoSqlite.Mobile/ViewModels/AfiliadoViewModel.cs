@@ -27,6 +27,7 @@ namespace AsoSqlite.Mobile.ViewModels
             _dbContext = context;
             _repository = repository;
 
+            //Obtener();
             if (Connectivity.Current.NetworkAccess == NetworkAccess.Internet)
             {
                 SincronizarAsocia();
@@ -81,6 +82,7 @@ namespace AsoSqlite.Mobile.ViewModels
 
         public async Task Obtener()
         {
+            ListaAfiliados.Clear();
             var lista = await _dbContext.EAfiliados.ToListAsync();
             if (lista.Any())
             {

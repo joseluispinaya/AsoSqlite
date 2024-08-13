@@ -27,6 +27,7 @@ namespace AsoSqlite.Mobile
 
             builder.Services.AddSingleton<IRepository, Repository>();
 
+            builder.Services.AddTransient<MainPage>();
             builder.Services.AddTransient<InicioView>();
             builder.Services.AddTransient<LoginView>();
             builder.Services.AddTransient<LoadingView>();
@@ -40,6 +41,7 @@ namespace AsoSqlite.Mobile
             //View Models
             builder.Services.AddTransient<LoginViewModel>();
             builder.Services.AddTransient<LoadingViewModel>();
+            builder.Services.AddTransient<AsociacionesViewModel>();
             builder.Services.AddTransient<AfiliadoViewModel>();
             builder.Services.AddTransient<AddAfiliadoViewModel>();
             builder.Services.AddTransient<SincronisarViewModel>();

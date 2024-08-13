@@ -29,20 +29,19 @@ namespace AsoSqlite.Mobile.ViewModels
         {
             _dbContext = context;
             _repository = repository;
-            ObtenerAfiliados();
+            //CargarDatosAsync();
+            //ObtenerAfiliados();
         }
 
-        public async void ObtenerAfiliados()
+        public async Task ObtenerAfiliadosAsync()
         {
-            //var lista = await _dbContext.EAfiliados.ToListAsync();
-
-            // Filtrar los afiliados por aquellos que tienen Estado = true
-            var lista = await _dbContext.EAfiliados
-                                        .Where(a => a.Estado)
-                                        .ToListAsync();
-
-            if (lista.Any())
+            try
             {
+                var lista = await _dbContext.EAfiliados
+                                            .Where(a => a.Estado)
+                                            .ToListAsync();
+
+                ListaAfiliados.Clear();
                 foreach (var item in lista)
                 {
                     ListaAfiliados.Add(new EAfiliadoDTO
@@ -58,63 +57,77 @@ namespace AsoSqlite.Mobile.ViewModels
                     });
                 }
             }
+            catch (Exception ex)
+            {
+                // Manejar errores (por ejemplo, mostrar una alerta al usuario)
+                await Shell.Current.DisplayAlert("Error", $"Error al obtener afiliados: {ex.Message}", "Ok");
+            }
         }
+
 
         [RelayCommand]
         private async Task Savere()
         {
-            ObtenerAfiliados();
-            if (!ListaAfiliados.Any())
+            try
             {
-                await Shell.Current.DisplayAlert("Error", "No hay Informacion para enviar.", "Ok");
-                return;
-            }
-            LoadingEsVisible = true;
-
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                LoadingEsVisible = false;
-                await Shell.Current.DisplayAlert("Error", "Verifique la conexion a Internet", "Ok");
-                return;
-            }
-
-            var requestList = ListaAfiliados.Select(d => new AfiliadoRequest
-            {
-                Idasoci = d.EAsociacionId,
-                NroCI = d.NroCI,
-                Nombres = d.Nombres,
-                Apellidos = d.Apellidos,
-                Direccion = d.Direccion,
-                Celular = d.Celular
-            }).ToList();
-
-            string url = "https://asociacion-001-site1.ktempurl.com/";
-            var responseHttp = await _repository.Post(url, "api/afiliados/Registrar", requestList);
-            if (responseHttp.Error)
-            {
-                LoadingEsVisible = false;
-                var message = await responseHttp.GetErrorMessageAsync();
-                await Shell.Current.DisplayAlert("Error", message, "Ok");
-                return;
-            }
-
-            foreach (var afiliado in ListaAfiliados)
-            {
-                var localAfiliado = await _dbContext.EAfiliados.FindAsync(afiliado.IdAfiliado);
-                //localAfiliado.Estado = false;
-                if (localAfiliado != null)
+                await ObtenerAfiliadosAsync();
+                if (!ListaAfiliados.Any())
                 {
-                    localAfiliado.Estado = false;
+                    await Shell.Current.DisplayAlert("Error", "No hay Informacion para enviar.", "Ok");
+                    return;
                 }
+                LoadingEsVisible = true;
+                if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
+                {
+                    LoadingEsVisible = false;
+                    await Shell.Current.DisplayAlert("Error", "Verifique la conexion a Internet", "Ok");
+                    return;
+                }
+                var requestList = ListaAfiliados.Select(d => new AfiliadoRequest
+                {
+                    Idasoci = d.EAsociacionId,
+                    NroCI = d.NroCI,
+                    Nombres = d.Nombres,
+                    Apellidos = d.Apellidos,
+                    Direccion = d.Direccion,
+                    Celular = d.Celular
+                }).ToList();
+
+                string url = "https://asociacion-001-site1.ktempurl.com/";
+                var responseHttp = await _repository.Post(url, "api/afiliados/Registrar", requestList);
+                if (responseHttp.Error)
+                {
+                    LoadingEsVisible = false;
+                    var message = await responseHttp.GetErrorMessageAsync();
+                    await Shell.Current.DisplayAlert("Error", message, "Ok");
+                    return;
+                }
+
+                var idsAfiliados = ListaAfiliados.Select(a => a.IdAfiliado).ToList();
+                var afiliadosParaActualizar = await _dbContext.EAfiliados
+                                                              .Where(a => idsAfiliados.Contains(a.IdAfiliado))
+                                                              .ToListAsync();
+
+
+                foreach (var afiliado in afiliadosParaActualizar)
+                {
+                    afiliado.Estado = false;
+                }
+
+                await _dbContext.SaveChangesAsync();
+
+                LoadingEsVisible = false;
+                await Shell.Current.DisplayAlert("Exito", "Lista de Afiliados Sincronizado", "Ok");
+
+                // Opcionalmente, recargar la lista después de la sincronización
+                await ObtenerAfiliadosAsync();
             }
-            // Guarda los cambios en la base de datos local
-            await _dbContext.SaveChangesAsync();
-
-            LoadingEsVisible = false;
-            await Shell.Current.DisplayAlert("Exito", "Lista de Afiliados Sincronizado", "Ok");
-
-            // Opcionalmente, recargar la lista después de la sincronización
-            ObtenerAfiliados();
+            catch (Exception ex)
+            {
+                LoadingEsVisible = false;
+                await Shell.Current.DisplayAlert("Error", $"Error al sincronizar: {ex.Message}", "Ok");
+            }
+            
         }
     }
 }
