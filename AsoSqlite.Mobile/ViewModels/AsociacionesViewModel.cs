@@ -24,6 +24,12 @@ namespace AsoSqlite.Mobile.ViewModels
         [ObservableProperty]
         private EAsociacionDTO eAsociacionDto = new EAsociacionDTO();
 
+        [ObservableProperty]
+        private ObservableCollection<EAfiliadoDTO> listaAfiliados = new ObservableCollection<EAfiliadoDTO>();
+
+        [ObservableProperty]
+        private bool loadingEsVisible = false;
+
         public AsociacionesViewModel(IRepository repository)
         {
             _repository = repository;
@@ -57,11 +63,73 @@ namespace AsoSqlite.Mobile.ViewModels
             }
         }
 
-        [RelayCommand]
-        private async Task Buscar()
+        public async Task AfiliadosAsociaAsync(int id)
         {
-            var ver = EAsociacionDto.Nombre;
-            await Shell.Current.DisplayAlert("Selecciono", ver, "Ok");
+            try
+            {
+                LoadingEsVisible = true;
+                if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
+                {
+                    LoadingEsVisible = false;
+                    await Shell.Current.DisplayAlert("Error", "Verifique la conexion a Internet", "Ok");
+                    return;
+                }
+
+                string url = "https://asociacion-001-site1.ktempurl.com/";
+                var responseHttp = await _repository.Get<List<AfiliadoResponse>>(url, $"api/afiliados/listaafi/{id}");
+
+                if (responseHttp.Error)
+                {
+                    LoadingEsVisible = false;
+                    var message = await responseHttp.GetErrorMessageAsync();
+                    await Shell.Current.DisplayAlert("Error", message, "Ok");
+                    return;
+                }
+
+                var responseAfili = responseHttp.Response!;
+                LoadingEsVisible = false;
+
+                ListaAfiliados.Clear();
+
+                foreach (var item in responseAfili)
+                {
+                    ListaAfiliados.Add(new EAfiliadoDTO
+                    {
+                        IdAfiliado = item.IdAfiliado,
+                        NroCI = item.NroCI,
+                        Nombres = item.Nombres,
+                        Apellidos = item.Apellidos,
+                        Direccion = item.Direccion,
+                        Celular = item.Celular,
+                        Estado = item.Estado,
+                        EAsociacionId = item.Idasoci,
+                        EAsociacionNombre = item.AsociacionNom,
+                    });
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                LoadingEsVisible = false;
+                await Shell.Current.DisplayAlert("Error", $"Error al sincronizar: {ex.Message}", "Ok");
+            }
         }
+
+        [RelayCommand]
+        private async Task AsociacionSeleccionada()
+        {
+            if (EAsociacionDto != null)
+            {
+                await AfiliadosAsociaAsync(EAsociacionDto.Idasoci);
+                //await Shell.Current.DisplayAlert("Seleccionó", $"Asociación seleccionada: {EAsociacionDto.Nombre}", "Ok");
+            }
+        }
+
+        //[RelayCommand]
+        //private async Task Buscar()
+        //{
+        //    var ver = EAsociacionDto.Nombre;
+        //    await Shell.Current.DisplayAlert("Selecciono", ver, "Ok");
+        //}
     }
 }

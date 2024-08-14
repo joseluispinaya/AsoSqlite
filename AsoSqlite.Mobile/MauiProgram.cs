@@ -1,4 +1,5 @@
-﻿using AsoSqlite.Mobile.Repositories;
+﻿using CommunityToolkit.Maui;
+using AsoSqlite.Mobile.Repositories;
 using AsoSqlite.Mobile.DataAccess;
 using AsoSqlite.Mobile.ViewModels;
 using AsoSqlite.Mobile.Views;
@@ -13,6 +14,7 @@ namespace AsoSqlite.Mobile
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .UseMauiCommunityToolkit()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

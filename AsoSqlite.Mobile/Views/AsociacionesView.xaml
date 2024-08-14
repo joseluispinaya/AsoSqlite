@@ -1,58 +1,92 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:model="clr-namespace:AsoSqlite.Mobile.DTOs"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="AsoSqlite.Mobile.Views.AsociacionesView"
-             Title="AsociacionesView">
-    
-    <Grid RowDefinitions="Auto, *">
-        <VerticalStackLayout>
+             Title="Asociacion">
 
-            <Grid ColumnDefinitions="*, Auto" Margin="20, 10">
-                <Picker Title="Selec Asociacion"
-                    Margin="10,10,10,10"
-                    FontAttributes="Bold"
-                    ItemDisplayBinding="{Binding Nombre}"
-                    ItemsSource="{Binding ListaAsociacion}"
-                    SelectedItem="{Binding EAsociacionDto}"/>
+    <Grid>
+        <Grid RowDefinitions="Auto, *">
 
-                <ImageButton Grid.Column="1" Source="listah.png" Aspect="AspectFill" 
-                             WidthRequest="40" HeightRequest="40" Margin="30, 0, 0, 0"
-                             Command="{Binding BuscarCommand}"/>
-            </Grid>
-        </VerticalStackLayout>
-
-        <Grid ColumnDefinitions="Auto, *"
-        RowDefinitions="*, Auto" Grid.Row="1">
-            <Frame WidthRequest="110" HeightRequest="110"
-                CornerRadius="10" Padding="0" VerticalOptions="Center">
-
-                <Grid>
-                    <Image Source="afiliah.png" Aspect="AspectFill"/>
+            <VerticalStackLayout>
+                <Grid Margin="20, 8">
+                    <Picker Title="Selec Asociacion"
+                        Margin="10,0,10,10"
+                        HorizontalOptions="FillAndExpand"
+                        FontAttributes="Bold"
+                        ItemDisplayBinding="{Binding Nombre}"
+                        ItemsSource="{Binding ListaAsociacion}"
+                        SelectedItem="{Binding EAsociacionDto}">
+                        <Picker.Behaviors>
+                         <toolkit:EventToCommandBehavior
+                        EventName="SelectedIndexChanged"
+                        Command="{Binding AsociacionSeleccionadaCommand}" />
+                         </Picker.Behaviors>
+                     </Picker>
                 </Grid>
-            </Frame>
+                <Label Text="Lista de Afiliados" FontSize="18" HorizontalTextAlignment="Center" />
 
-            <VerticalStackLayout Grid.Column="1" Margin="20, 0, 10, 0" Spacing="12">
-                <Label Text="afsfsdfsdfds"
-                    FontSize="16" />
-
-                <Label Text="rtrtrtrtrt"
-                    FontSize="12" MaxLines="3"/>
-
-                <Grid>
-                    <Label Text="frtrtrr"
-                        FontSize="14" />
-
-                    <Button Text="Add Cart" BackgroundColor="#FF4F4F" TextColor="White"
-                            WidthRequest="70" HeightRequest="25" Padding="0"
-                            CornerRadius="20" FontSize="10"
-                            HorizontalOptions="End"/>
-                </Grid>
             </VerticalStackLayout>
 
-            <BoxView Grid.ColumnSpan="2" Grid.Row="1" Margin="0, 15"
-                    HeightRequest="1" Color="#9497A8"/>
+            
+
+            <ScrollView Padding="15" Grid.Row="1">
+                <CollectionView ItemsSource="{Binding ListaAfiliados}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:EAfiliadoDTO">
+                            <Border
+                            Padding="10"
+                            BackgroundColor="LightPink"
+                            Stroke="LightPink"
+                            StrokeShape="RoundRectangle 10">
+                                <Grid ColumnDefinitions="50, *, Auto">
+                                    <ImageButton
+                                    Grid.Column="0"
+                                    HeightRequest="24"
+                                    Source="afosa.png"
+                                    VerticalOptions="Center"
+                                    WidthRequest="24"/>
+                                    <VerticalStackLayout Grid.Column="1" Spacing="5">
+                                        <Label
+                                        FontAttributes="Bold"
+                                        FontSize="15"
+                                        Text="{Binding Apellidos}"
+                                        TextColor="DeepPink" />
+                                        <Label FontSize="12">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="{Binding Nombres}" TextColor="Black" />
+                                                    <Span Text=", " TextColor="Black" />
+                                                    <Span Text="{Binding NroCI}" TextColor="Black" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                    </VerticalStackLayout>
+                                    <Label
+                                    Grid.Column="2"
+                                    FontAttributes="Bold"
+                                    FontSize="15"
+                                    TextColor="Black"
+                                    HorizontalOptions="End"
+                                    Text="{Binding Celular}"
+                                    VerticalOptions="Center" />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </ScrollView>
+
+
         </Grid>
 
-
+        <ActivityIndicator IsVisible="{Binding LoadingEsVisible}"
+                           IsRunning="{Binding LoadingEsVisible}"
+                           Color="Blue"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           />
     </Grid>
+
 </ContentPage>
