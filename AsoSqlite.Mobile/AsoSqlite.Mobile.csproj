@@ -21,7 +21,7 @@
 		<Nullable>enable</Nullable>
 
 		<!-- Display name -->
-		<ApplicationTitle>AsoSqlite.Mobile</ApplicationTitle>
+		<ApplicationTitle>App.Aso</ApplicationTitle>
 
 		<!-- App Identifier -->
 		<ApplicationId>com.companyname.asosqlite.mobile</ApplicationId>
@@ -40,10 +40,12 @@
 
 	<ItemGroup>
 		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+		
+		<MauiIcon Include="Resources\AppIcon\icola.png" Color="#F2F2F2" ForegroundScale="0.50" />
 
 		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
+		
+		<MauiSplashScreen Include="Resources\Splash\splashla.png" Color="#F2F2F2" BaseSize="128,128" />
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
@@ -57,15 +59,18 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\AppIcon\icola.png" />
 	  <None Remove="Resources\Images\afiliah.png" />
 	  <None Remove="Resources\Images\afosa.png" />
 	  <None Remove="Resources\Images\ajusteh.png" />
 	  <None Remove="Resources\Images\casah.png" />
+	  <None Remove="Resources\Images\fondoap.png" />
 	  <None Remove="Resources\Images\listah.png" />
 	  <None Remove="Resources\Images\lock.png" />
 	  <None Remove="Resources\Images\logo.png" />
 	  <None Remove="Resources\Images\logoemi.png" />
 	  <None Remove="Resources\Images\user.png" />
+	  <None Remove="Resources\Splash\splashla.png" />
 	</ItemGroup>
 
 	<ItemGroup>

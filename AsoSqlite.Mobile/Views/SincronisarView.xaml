@@ -4,76 +4,73 @@
              x:Class="AsoSqlite.Mobile.Views.SincronisarView"
              xmlns:model="clr-namespace:AsoSqlite.Mobile.DTOs"
              Title="Sincronizar Datos">
-    <Grid RowDefinitions="Auto,Auto,Auto,*" RowSpacing="15" Margin="15">
+    <Grid>
+        <Grid RowDefinitions="Auto, *">
 
-        <Button Grid.Row="0" Text="Sincronizar Datos" Command="{Binding SavereCommand}"/>
-        <Label Grid.Row="1" Text="Lista de Afiliado" FontSize="Subtitle" FontAttributes="Bold"/>
+            <VerticalStackLayout Margin="15">
+                <Button Text="Sincronizar Datos" Command="{Binding SavereCommand}" CornerRadius="10" HorizontalOptions="Center" VerticalOptions="Center"/>
 
-        <VerticalStackLayout Grid.Row="2">
-            <ActivityIndicator IsVisible="{Binding LoadingEsVisible}"
+                <Label Text="Lista de Afiliados" FontAttributes="Bold" FontSize="18" HorizontalOptions="Center" Margin="0,30,0,0" />
+
+            </VerticalStackLayout>
+
+
+
+            <ScrollView Padding="15" Grid.Row="1">
+                <CollectionView ItemsSource="{Binding ListaAfiliados}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:EAfiliadoDTO">
+                            <Border
+                            Padding="10"
+                            BackgroundColor="LightPink"
+                            Stroke="LightPink"
+                            StrokeShape="RoundRectangle 10">
+                                <Grid ColumnDefinitions="50, *, Auto">
+                                    <ImageButton
+                                    Grid.Column="0"
+                                    HeightRequest="24"
+                                    Source="afosa.png"
+                                    VerticalOptions="Center"
+                                    WidthRequest="24"/>
+                                    <VerticalStackLayout Grid.Column="1" Spacing="5">
+                                        <Label
+                                        FontAttributes="Bold"
+                                        FontSize="15"
+                                        Text="{Binding Apellidos}"
+                                        TextColor="DeepPink" />
+                                        <Label FontSize="12">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="{Binding Nombres}" TextColor="Black" />
+                                                    <Span Text=", " TextColor="Black" />
+                                                    <Span Text="{Binding NroCI}" TextColor="Black" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                    </VerticalStackLayout>
+                                    <Label
+                                    Grid.Column="2"
+                                    FontAttributes="Bold"
+                                    FontSize="15"
+                                    TextColor="Black"
+                                    HorizontalOptions="End"
+                                    Text="{Binding Celular}"
+                                    VerticalOptions="Center" />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </ScrollView>
+
+
+        </Grid>
+
+        <ActivityIndicator IsVisible="{Binding LoadingEsVisible}"
                            IsRunning="{Binding LoadingEsVisible}"
                            Color="Blue"
-                           HeightRequest="30"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
                            />
-        </VerticalStackLayout>
-
-        <ScrollView Grid.Row="3">
-
-            <CollectionView ItemsSource="{Binding ListaAfiliados}">
-                <CollectionView.ItemsLayout>
-                    <LinearItemsLayout ItemSpacing="5" Orientation="Vertical"/>
-                </CollectionView.ItemsLayout>
-
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="model:EAfiliadoDTO">
-                        <Border Padding="10,5" HorizontalOptions="FillAndExpand">
-                            <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="5"/>
-                            </Border.StrokeShape>
-
-                            <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto"
-                                  ColumnDefinitions="Auto,*"
-                                  >
-
-                                <Label Grid.Row="0" Grid.Column="0"
-                                       Text="Nro C.I.:" FontAttributes="Bold"/>
-                                <Label Grid.Row="0" Grid.Column="1" HorizontalOptions="End"
-                                    Text="{Binding NroCI}" />
-
-                                <Label Grid.Row="1" Grid.Column="0"
-                                    Text="Nombres:" FontAttributes="Bold"/>
-                                <Label Grid.Row="1" Grid.Column="1" HorizontalOptions="End"
-                                    Text="{Binding Nombres}" />
-
-                                <Label Grid.Row="2" Grid.Column="0"
-                                    Text="Apellidos:" FontAttributes="Bold"/>
-                                <Label Grid.Row="2" Grid.Column="1" HorizontalOptions="End"
-                                    Text="{Binding Apellidos}" />
-
-                                <Label Grid.Row="3" Grid.Column="0"
-                                    Text="Celular:" FontAttributes="Bold"/>
-                                <Label Grid.Row="3" Grid.Column="1" HorizontalOptions="End"
-                                    Text="{Binding Celular}" />
-
-                                <Label Grid.Row="4" Grid.Column="0"
-                                    Text="Estado:" FontAttributes="Bold"
-                                       VerticalOptions="Center"/>
-                                <CheckBox Grid.Row="4" Grid.Column="1" HorizontalOptions="End"
-                                    IsEnabled="False"
-                                    IsChecked="{Binding Estado}" />
-
-                            </Grid>
-
-
-                        </Border>
-                    </DataTemplate>
-
-                </CollectionView.ItemTemplate>
-
-            </CollectionView>
-
-
-        </ScrollView>
-
     </Grid>
 </ContentPage>

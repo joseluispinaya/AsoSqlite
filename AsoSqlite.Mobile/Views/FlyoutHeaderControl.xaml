@@ -5,7 +5,7 @@
              xmlns:Models="clr-namespace:AsoSqlite.Mobile.ViewModels">
 
     <StackLayout Spacing="5">
-        <Image Source="logoemi.png" HeightRequest="150"/>
+        <Image Source="fondoap.png" HeightRequest="150"/>
 
         <Grid Margin="0, -50, 0, 0">
             <Grid.ColumnDefinitions>
